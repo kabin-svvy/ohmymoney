@@ -34,20 +34,21 @@
             </button>
         </div>
         <div class="modal-body">
-            <form>
+            <form [formGroup]="incomeForm">
                 <div class="form-group">
                     <div class="col-xs-12 col-12 col-md-4 form-group- row">
                         <input 
                             type="input"
                             placeholder="วันที่"
                             class="form-control"
+                            formControlName="date"
+                            bsDatepicker
                         >
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <select id="incomeGroupId"
-                        class="form-control">
+                    <select id="incomeGroupId" formControlName="incomeGroupId" class="form-control">
                         <option value="" selected>กรุณาเลือกประเภทเงินเดือน</option>
                     </select>
                 </div>

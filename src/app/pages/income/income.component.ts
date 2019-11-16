@@ -3,6 +3,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Income } from 'src/app/models/income';
 import { HttpClient } from '@angular/common/http';
 import { IncomeService } from 'src/app/services/income/income.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-income',
@@ -16,6 +17,8 @@ export class IncomeComponent implements OnInit {
   modalRef: BsModalRef;
 
   incomes: Income[];
+
+  incomeForm: FormGroup;
 
   ngOnInit() {
     this.incomeService.getIncomeByUserId().subscribe(incomes => {

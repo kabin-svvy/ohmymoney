@@ -3,7 +3,7 @@
         รายรับ
     </h2>
     <div class="card-container">
-        <div class="card card-small">
+        <div class="card card-small" (click)="openModal(template)">
             เพิ่มรายรับ
         </div>
     </div>
@@ -18,10 +18,10 @@
         </thead>
         <tbody>
             <tr>
-                <td>1</td>
-                <td>01/31/2019</td>
-                <td>งานประจำ</td>
-                <td>200,000</td>
+                <td>{{income.id}}</td>
+                <td>{{income.date}}</td>
+                <td>{{income.incomeNameGroupId}}</td>
+                <td>{{income.amount}}</td>
             </tr>
             <tr>
                 <td>2</td>
@@ -31,4 +31,16 @@
             </tr>
         </tbody>
     </table>
+
+    <ng-template #template>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Modal</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            This is a modal.
+        </div>
+    </ng-template>
 </div>

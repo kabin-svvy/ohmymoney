@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { IncomeComponent } from './pages/income/income.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { IncomeComponent } from './pages/income/income.component';
     IncomeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

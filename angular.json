@@ -128,7 +128,7 @@
   "defaultProject": "ohmymoney",
   "schematics": {
     "@nrwl/schematics:component": {
-      "styleext": "scss"
+      "styleext": "css"
     }
   }
 }

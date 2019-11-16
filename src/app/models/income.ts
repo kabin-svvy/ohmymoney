@@ -1,7 +1,7 @@
 export interface Income {
     id: number;
     incomeGroupId: number;
-    incomeNameGroupId: number;
+    incomeNameGroupId: string;
     amount: number;
     date: string;
 }

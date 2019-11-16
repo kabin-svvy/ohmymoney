@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IncomeService } from 'src/app/services/income/income.service';
 import { Income } from 'src/app/models/income';
 import { of } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 describe('IncomeComponent', () => {
@@ -16,7 +17,10 @@ describe('IncomeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IncomeComponent ],
-      imports: [ModalModule.forRoot(), HttpClientModule]
+      imports: [
+        ModalModule.forRoot(), 
+        HttpClientModule, 
+        ReactiveFormsModule]
     })
     .compileComponents();
   }));
@@ -32,26 +36,45 @@ describe('IncomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getIncomeByUserId service when call method ngOnInit', () => {
-    spyOn(incomeService, 'getIncomeByUserId').and.returnValue(of([]));
-    component.ngOnInit();
-    expect(incomeService.getIncomeByUserId).toHaveBeenCalled();
+  describe('getIncomeByUserId service', () => {
+    let expected: Income[];
+    beforeEach(() => {
+      expected = [
+        {
+          id: 1,
+          incomeNameGroupId: 'งานประจำ',
+          amount: 100000,
+          date:'01/31/2019'
+        }
+      ] as Income[];
+      spyOn(incomeService, 'getIncomeByUserId').and.returnValue(of(expected));
+    });
+
+    it('should call getIncomeByUserId service when call method ngOnInit', () => {
+      component.ngOnInit();
+      expect(incomeService.getIncomeByUserId).toHaveBeenCalled();
+    });
+
+    it('should set incomes when call get getIncomeByUserId is success', () => {
+      component.ngOnInit();
+      expect(component.incomes).toBe(expected);
+    });
   });
 
-  it('should set incomes when call get getIncomeByUserId is success', () => {
-    const expected = [
-      {
-        id: 1,
-        incomeNameGroupId: 'งานประจำ',
-        amount: 100000,
-        date:'01/31/2019'
-      }
-    ] as Income[];
-    
-    spyOn(incomeService, 'getIncomeByUserId').and.returnValue(of(expected));
-
-    component.ngOnInit();
-
-    expect(component.incomes).toBe(expected);
+  describe('create reactive form ', () => {
+    it('should set empty in date of form', () => {
+      component.ngOnInit();
+      expect(component.incomeForm.controls.date.value).toBe('');
+    });
+  
+    it('should set empty in income group id of form', () => {
+      component.ngOnInit();
+      expect(component.incomeForm.controls.incomeGroupId.value).toBe('');
+    });
+  
+    it('should set empty in amount of form', () => {
+      component.ngOnInit();
+      expect(component.incomeForm.controls.amount.value).toBe('0');
+    });
   });
 });

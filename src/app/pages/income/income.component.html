@@ -34,7 +34,32 @@
             </button>
         </div>
         <div class="modal-body">
-            This is a modal.
+            <form>
+                <div class="form-group">
+                    <div class="col-xs-12 col-12 col-md-4 form-group- row">
+                        <input 
+                            type="input"
+                            placeholder="วันที่"
+                            class="form-control"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <select id="incomeGroupId"
+                        class="form-control">
+                        <option value="" selected>กรุณาเลือกประเภทเงินเดือน</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input placeholder="จำนวนเงิน" class="form-control">
+                </div>
+
+                <button>
+                    ตกลง
+                </button>
+            </form>
         </div>
     </ng-template>
 </div>

@@ -10,12 +10,15 @@ import { IncomeRequest } from 'src/app/models/income-request';
 })
 export class IncomeService {
   SERVER_URL : string;
+  USER_ID: number;
+
   constructor(private http: HttpClient) { 
     this.SERVER_URL = 'https://working-with-angular.herokuapp.com';
+    this.USER_ID = 24;
   }
 
   getIncomeByUserId(): Observable<Income[]> {
-    return this.http.get<Income[]>(`${this.SERVER_URL}/income/id/24`);
+    return this.http.get<Income[]>(`${this.SERVER_URL}/income/id/${this.USER_ID}`);
   }
 
   getIncomeGroup(): Observable<IncomeGroup[]> {

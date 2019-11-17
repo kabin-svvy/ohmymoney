@@ -119,5 +119,18 @@ describe('IncomeComponent', () => {
       component.onSubmit();
       expect(incomeService.saveIncome).toHaveBeenCalledWith(expected);
     });
+
+    it('should get income by userID when called save income success', () => {
+      component.incomeForm.get('amount').setValue(70000);
+      component.incomeForm.get('incomeGroupId').setValue(2);
+      component.incomeForm.get('date').setValue("12/31/2019");
+
+      spyOn(component, 'getIncomeByUserId');
+      spyOn(incomeService, 'saveIncome').and.returnValue(of([]));
+      spyOn(component, 'getDateISOString').and.returnValue('2019-12-31T17:58:17.318Z');
+      
+      component.onSubmit();
+      expect(component.getIncomeByUserId).toHaveBeenCalled();
+    });
   });
 });

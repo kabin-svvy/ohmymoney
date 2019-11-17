@@ -10,6 +10,6 @@ export class IncomeService {
   constructor(private http: HttpClient) { }
 
   getIncomeByUserId(): Observable<Income[]> {
-    return this.http.get<Income[]>('http://103.74.254.157:9003/income/id/1');
+    return this.http.get<Income[]>('https://working-with-angular.herokuapp.com/income/id/1');
   }
 }

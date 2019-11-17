@@ -77,4 +77,9 @@ describe('IncomeComponent', () => {
       expect(component.incomeForm.controls.amount.value).toBe('0');
     });
   });
+
+  // it('should return data income group when call getIncomeGroup', () => {
+  //   component.ngOnInit();
+  //   expect(c)
+  // });
 });

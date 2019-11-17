@@ -57,7 +57,13 @@ export class IncomeComponent implements OnInit {
       this.incomeForm.get('date').setValue(income.date);
       this.incomeForm.get('amount').setValue(String(income.amount));
       this.incomeForm.get('incomeGroupId').setValue(String(income.incomeGroupId));
-    } 
+    } else {
+      this.incomeForm = this.fb.group({
+        date: '',
+        incomeGroupId: '',
+        amount:''
+      });
+    }
   }
 
   onSubmit() {

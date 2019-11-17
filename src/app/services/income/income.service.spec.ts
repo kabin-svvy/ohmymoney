@@ -49,7 +49,7 @@ describe('IncomeService', () => {
     expect(req.request.method).toBe('POST');
   });
 
-  it('should set income request body wuith user id when call method save income', () => {
+  it('should set income request body with user id when call method save income', () => {
     const dataRequest = {
       incomeGroupId: 2,
       amount: 70000,

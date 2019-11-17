@@ -8,6 +8,7 @@ import { Income } from 'src/app/models/income';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IncomeGroup } from 'src/app/models/income-group';
+import { IncomeRequest } from 'src/app/models/income-request';
 
 
 describe('IncomeComponent', () => {
@@ -102,6 +103,21 @@ describe('IncomeComponent', () => {
 
     it('should set data in incomeGroup when call getIncomeGroup api is success', () => {
       expect(component.incomeGroup).toBe(expected);
+    });
+
+    it('should call method saveIncome when click submit button', () => {
+      component.incomeForm.get('amount').setValue(70000);
+      component.incomeForm.get('incomeGroupId').setValue(2);
+      component.incomeForm.get('date').setValue("12/31/2019");
+      spyOn(incomeService, 'saveIncome').and.returnValue(of([]));
+      spyOn(component, 'getDateISOString').and.returnValue('2019-12-31T17:58:17.318Z');
+      const expected = {
+        incomeGroupId: 2,
+        amount: 70000,
+        date: "2019-12-31T17:58:17.318Z"
+      } as IncomeRequest;
+      component.onSubmit();
+      expect(incomeService.saveIncome).toHaveBeenCalledWith(expected);
     });
   });
 });

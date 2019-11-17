@@ -7,6 +7,7 @@ import { IncomeService } from 'src/app/services/income/income.service';
 import { Income } from 'src/app/models/income';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { IncomeGroup } from 'src/app/models/income-group';
 
 
 describe('IncomeComponent', () => {
@@ -48,38 +49,59 @@ describe('IncomeComponent', () => {
         }
       ] as Income[];
       spyOn(incomeService, 'getIncomeByUserId').and.returnValue(of(expected));
+      component.ngOnInit();
     });
 
     it('should call getIncomeByUserId service when call method ngOnInit', () => {
-      component.ngOnInit();
       expect(incomeService.getIncomeByUserId).toHaveBeenCalled();
     });
 
     it('should set incomes when call get getIncomeByUserId is success', () => {
-      component.ngOnInit();
       expect(component.incomes).toBe(expected);
     });
   });
 
   describe('create reactive form ', () => {
-    it('should set empty in date of form', () => {
+    beforeEach(() => {
       component.ngOnInit();
+    });
+
+    it('should set empty in date of form', () => {
       expect(component.incomeForm.controls.date.value).toBe('');
     });
   
     it('should set empty in income group id of form', () => {
-      component.ngOnInit();
       expect(component.incomeForm.controls.incomeGroupId.value).toBe('');
     });
   
     it('should set empty in amount of form', () => {
-      component.ngOnInit();
-      expect(component.incomeForm.controls.amount.value).toBe('0');
+      expect(component.incomeForm.controls.amount.value).toBe('');
     });
   });
 
-  // it('should return data income group when call getIncomeGroup', () => {
-  //   component.ngOnInit();
-  //   expect(c)
-  // });
+  describe('getIncomeGroup service', () => {
+    let expected: IncomeGroup[];
+    beforeEach(() => {
+      expected = [
+        {
+          id: 1,
+          name: "เงินเดือน"
+        },
+        {
+            id: 2,
+            name: "รายได้เสริม"
+        }
+      ] as IncomeGroup[];
+      spyOn(incomeService, 'getIncomeGroup').and.returnValue(of(expected));
+      component.ngOnInit();
+    });
+
+    it('should call method getIncomeGroup when call ngOnInit', () => {
+      expect(incomeService.getIncomeGroup).toHaveBeenCalled();
+    });
+
+    it('should set data in incomeGroup when call getIncomeGroup api is success', () => {
+      expect(component.incomeGroup).toBe(expected);
+    });
+  });
 });

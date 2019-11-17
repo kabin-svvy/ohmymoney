@@ -50,6 +50,9 @@
                 <div class="form-group">
                     <select id="incomeGroupId" formControlName="incomeGroupId" class="form-control">
                         <option value="" selected>กรุณาเลือกประเภทเงินเดือน</option>
+                        <option *ngFor="let data of incomeGroup" [value]="data.id">
+                            {{data.name}}
+                        </option>
                     </select>
                 </div>
 
@@ -57,7 +60,7 @@
                     <input placeholder="จำนวนเงิน" formControlName="amount" class="form-control">
                 </div>
 
-                <button>
+                <button type="submit" (click)="onSubmit()">
                     ตกลง
                 </button>
             </form>

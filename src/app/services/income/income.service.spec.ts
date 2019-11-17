@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { IncomeService } from './income.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { IncomeRequest } from 'src/app/models/income-request';
 
 describe('IncomeService', () => {
   let service: IncomeService;
@@ -33,5 +34,18 @@ describe('IncomeService', () => {
       `${service.SERVER_URL}/income/group`
     );
     expect(req.request.method).toBe('GET');
+  });
+
+  it('should call method post url add user api', () => {
+    const dataRequest = {
+      incomeGroupId: 2,
+      amount: 70000,
+      date: "12/31/2019"
+    } as IncomeRequest;
+    service.saveIncome(dataRequest).subscribe();
+    const req = httpTestingController.expectOne(
+      `${service.SERVER_URL}/income`
+    );
+    expect(req.request.method).toBe('POST');
   });
 });

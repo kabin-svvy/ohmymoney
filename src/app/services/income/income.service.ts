@@ -34,4 +34,10 @@ export class IncomeService {
     data.userId = this.USER_ID;
     return this.http.put(`${this.SERVER_URL}/income/id/${id}`, data);
   }
+  
+  findIncome(text: string): Observable<Income[]> {
+    return this.http.get<Income[]>(
+      `${this.SERVER_URL}/income/user-id/${this.USER_ID}/search/${text}`
+    );
+  }
 }

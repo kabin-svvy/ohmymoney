@@ -1,18 +1,20 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, OnDestroy } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Income } from 'src/app/models/income';
 import { HttpClient } from '@angular/common/http';
 import { IncomeService } from 'src/app/services/income/income.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { IncomeGroup } from 'src/app/models/income-group';
 import { IncomeRequest } from 'src/app/models/income-request';
+import { debounceTime, distinctUntilChanged, switchMap, map, filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-income',
   templateUrl: './income.component.html',
   styleUrls: ['./income.component.scss']
 })
-export class IncomeComponent implements OnInit {
+export class IncomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private modalService: BsModalService, 
@@ -24,11 +26,30 @@ export class IncomeComponent implements OnInit {
   incomes: Income[];
   incomeForm: FormGroup;
   incomeGroup: IncomeGroup[];
+  searchText: FormControl;
+  subscription = new Subscription();
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
   ngOnInit() {
     this.getIncomeByUserId();
     this.createForm();
     this.getIncomeGroup();
+
+    this.subscription.add(
+      this.searchText.valueChanges
+      .pipe(
+        filter(v => v.length !== 0),
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(v => this.incomeService.findIncome(v))
+      ).subscribe(v => {
+        console.log(v);
+        this.incomes = v.map(n => ({...n, incomeGroupName: n.incomeNameGroupId}));
+      })
+    );
   }
 
   private getIncomeGroup() {
@@ -38,6 +59,7 @@ export class IncomeComponent implements OnInit {
   }
 
   createForm() {
+    this.searchText = new FormControl('');
     this.incomeForm = this.fb.group({
       date: '',
       incomeGroupId: '',
@@ -54,7 +76,7 @@ export class IncomeComponent implements OnInit {
   openModal(template: TemplateRef<any>, income?: Income) {
     this.modalRef = this.modalService.show(template);
     if(income) {
-      this.incomeForm.get('date').setValue(income.date);
+      this.incomeForm.get('date').setValue(this.getDateFromISOString(income.date));
       this.incomeForm.get('amount').setValue(String(income.amount));
       this.incomeForm.get('incomeGroupId').setValue(String(income.incomeGroupId));
     } else {
@@ -76,6 +98,10 @@ export class IncomeComponent implements OnInit {
       this.getIncomeByUserId();
       // this.modalRef.hide();
     });
+  }
+
+  getDateFromISOString(date: string): Date {
+    return new Date(date);
   }
 
   getDateISOString(date: string): string {

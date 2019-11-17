@@ -175,7 +175,7 @@ describe('IncomeComponent', () => {
       } as Income;
       const template = fixture.debugElement.nativeElement.querySelector('#template');
       component.openModal(template, input);
-      expect(component.incomeForm.get('date').value).toBe('12/31/2019');
+      expect(component.incomeForm.get('date').value).toEqual(new Date('12/31/2019'));
       expect(component.incomeForm.get('incomeGroupId').value).toBe('2');
       expect(component.incomeForm.get('amount').value).toBe('70000');
     });

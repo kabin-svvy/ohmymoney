@@ -9,6 +9,8 @@ import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IncomeGroup } from 'src/app/models/income-group';
 import { IncomeRequest } from 'src/app/models/income-request';
+import { SSL_OP_NO_COMPRESSION } from 'constants';
+import { TemplateRef } from '@angular/core';
 
 
 describe('IncomeComponent', () => {
@@ -161,6 +163,29 @@ describe('IncomeComponent', () => {
         input.id, 
         dataUpdate
       );
+    });
+
+    it('should set income data to from group when click edit', () => {
+      const input = {
+        id:1,
+        incomeGroupName: 'เงินเดือน',
+        incomeGroupId: 2,
+        amount: 70000,
+        date: "12/31/2019"
+      } as Income;
+      const template = fixture.debugElement.nativeElement.querySelector('#template');
+      component.openModal(template, input);
+      expect(component.incomeForm.get('date').value).toBe('12/31/2019');
+      expect(component.incomeForm.get('incomeGroupId').value).toBe('2');
+      expect(component.incomeForm.get('amount').value).toBe('70000');
+    });
+
+    it('should set emply in date, incomeGroupId, amount when come data is empty and call open model', () => {
+      const template = fixture.debugElement.nativeElement.querySelector('#template');
+      component.openModal(template);
+      expect(component.incomeForm.get('date').value).toBe('');
+      expect(component.incomeForm.get('incomeGroupId').value).toBe('');
+      expect(component.incomeForm.get('amount').value).toBe('');
     });
   });
 });

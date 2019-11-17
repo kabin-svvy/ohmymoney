@@ -62,8 +62,8 @@ export class IncomeComponent implements OnInit {
       date: this.getDateISOString(this.incomeForm.get('date').value)
     } as IncomeRequest;
     this.incomeService.saveIncome(data).subscribe(_ => {
-      // this.modalRef.hide();
       this.getIncomeByUserId();
+      // this.modalRef.hide();
     });
   }
 

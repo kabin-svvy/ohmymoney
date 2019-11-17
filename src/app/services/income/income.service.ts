@@ -26,7 +26,12 @@ export class IncomeService {
   }
 
   saveIncome(income: IncomeRequest) {
-    income.userId = 24;
+    income.userId = this.USER_ID;
     return this.http.post(`${this.SERVER_URL}/income`, income);
+  }
+
+  updateIncome(id: number, data: IncomeRequest) {
+    data.userId = this.USER_ID;
+    return this.http.put(`${this.SERVER_URL}/income/id/${id}`, data);
   }
 }

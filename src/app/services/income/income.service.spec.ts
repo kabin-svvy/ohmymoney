@@ -48,4 +48,24 @@ describe('IncomeService', () => {
     );
     expect(req.request.method).toBe('POST');
   });
+
+  it('should set income request body wuith user id when call method save income', () => {
+    const dataRequest = {
+      incomeGroupId: 2,
+      amount: 70000,
+      date: "12/31/2019"
+    } as IncomeRequest;
+
+    const expected = {
+      userId: 24,
+      incomeGroupId: 2,
+      amount: 70000,
+      date: "12/31/2019"
+    } as IncomeRequest;
+    service.saveIncome(dataRequest).subscribe();
+    const req = httpTestingController.expectOne(
+      `${service.SERVER_URL}/income`
+    );
+    expect(req.request.body).toEqual(expected);
+  });
 });

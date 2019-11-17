@@ -22,6 +22,9 @@
                 <td>{{income.date | date: 'M/d/yyyy'}}</td>
                 <td>{{income.incomeGroupName}}</td>
                 <td>{{income.amount}}</td>
+                <td><button (click)="edit(income)" class="btn btn-default">
+                    แก้ไข
+                </button></td>
             </tr>
         </tbody>
     </table>

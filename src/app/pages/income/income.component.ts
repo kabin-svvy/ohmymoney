@@ -70,4 +70,13 @@ export class IncomeComponent implements OnInit {
   getDateISOString(date: string): string {
     return new Date(date).toISOString();
   }
+
+  edit(income: Income) {
+    const data = {
+      incomeGroupId: Number(this.incomeForm.get('incomeGroupId').value),
+      amount: Number(this.incomeForm.get('amount').value),
+      date: this.getDateISOString(this.incomeForm.get('date').value)
+    } as IncomeRequest;
+    this.incomeService.updateIncome(income.id, data);
+  }
 }
